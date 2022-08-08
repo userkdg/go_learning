@@ -67,8 +67,9 @@ func TestJsonMarshalStruct(t *testing.T) {
 func TestJsonUnMarshal(t *testing.T) {
 	byt := []byte(`{"num":6.13,"strs":[1,"2"]}`)
 	var bytRes map[string]interface{}
-	if err := json.Unmarshal(byt, &bytRes); err != nil {
-		panic(err)
+	err := json.Unmarshal(byt, &bytRes)
+	if err != nil {
+		return
 	}
 	fmt.Println("unmarshal map:", bytRes)
 	fmt.Println("unmarshal map exchange:", bytRes["num"].(float64), bytRes["strs"].([]interface{})[0], bytRes["strs"].([]interface{})[1])
@@ -79,7 +80,7 @@ func TestJsonUnMarshal(t *testing.T) {
 	}
 	var byResult byteResult
 	if err := json.Unmarshal(byt, &byResult); err != nil {
-		panic(err)
+		return
 	}
 	fmt.Println("unmarshal struct:", byResult)
 	byResultJson, _ := json.Marshal(byResult)
@@ -88,8 +89,8 @@ func TestJsonUnMarshal(t *testing.T) {
 	// json编码写入到流中（文件...）
 	enc := json.NewEncoder(os.Stdout)
 	d := map[string]int{"apple": 5, "lettuce": 7}
-	err := enc.Encode(d)
+	err = enc.Encode(d)
 	if err != nil {
-		panic(err)
+		return
 	}
 }
